@@ -1,7 +1,9 @@
 #[allow(unused_imports)]  // even though this is used, my ide is upset for some reason
-use colored::Colorize;
+
 
 pub mod logma {
+    use colored::Colorize;
+
     #[macro_export]
     macro_rules! info {
         ($fmt:expr) => {
