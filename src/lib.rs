@@ -1,85 +1,69 @@
 #[allow(unused_imports)]  // even though this is used, my ide is upset for some reason
 use colored::Colorize;
 
-macro_rules! logma {
-    (info, $fmt:expr) => {
-        println!("{} {}", "[INFO]", $fmt)
-    };
-    (warn, $fmt:expr) => {
-        println!("{} {}", "[WARN]".yellow(), $fmt.yellow())
-    };
-    (fatal, $fmt:expr) => {
-        println!("{} {}", "[FATAL]".red(), $fmt.red())
-    };
-    (debug, $fmt:expr) => {
-        if cfg!(debug_assertions) {
-            println!("{} {}", "[DEBUG]".bright_black(), $fmt.bright_black())
-        }
-    };
-    (custom, $text:expr, $fmt:expr) => {
-        println!("{} {}", $text, $fmt)
-    };
+pub mod logma {
+    #[macro_export]
+    macro_rules! info {
+        ($fmt:expr) => {
+            println!("{} {}", "[INFO]", $fmt)
+        };
 
-    (info, $fmt:expr, $($args:tt)*) => {
-        println!("{} {}", "[INFO]", format_args!($fmt, $($args)*))
-    };
-    (warn, $fmt:expr, $($args:tt)*) => {
-        println!("{} {}", "[WARN]".yellow(), format_args!($fmt, $($args)*).to_string().yellow())
-    };
-    (fatal, $fmt:expr, $($args:tt)*) => {
-        println!("{} {}", "[FATAL]".red(), format_args!($fmt, $($args)*).to_string().red())
-    };
-    (debug, $fmt:expr, $($args:tt)*) => {
-        if cfg!(debug_assertions) {
-            println!("{} {}", "[DEBUG]".bright_black(), format_args!($fmt, $($args)*).to_string().bright_black())
-        }
-    };
-    // not working yet
-    // (custom, $text:expr, $fmt:expr, $($args:tt)*) => {
-    //     println!("{} {}", $text, format_args!($fmt, $($args)*))
-    // };
+        ($fmt:expr, $($args:tt)*) => {
+            println!("{} {}", "[INFO]", format_args!($fmt, $($args)*))
+        };
+    }
+
+    #[macro_export]
+    macro_rules! warn {
+        ($fmt:expr) => {
+            println!("{} {}", "[WARN]".yellow(), $fmt.yellow())
+        };
+
+        ($fmt:expr, $($args:tt)*) => {
+            println!("{} {}", "[WARN]".yellow(), format_args!($fmt, $($args)*).to_string().yellow())
+        };
+    }
+
+    #[macro_export]
+    macro_rules! fatal {
+        ($fmt:expr) => {
+            println!("{} {}", "[FATAL]".red(), $fmt.red())
+        };
+
+        ($fmt:expr, $($args:tt)*) => {
+            println!("{} {}", "[FATAL]".red(), format_args!($fmt, $($args)*).to_string().red())
+        };
+    }
+
+    #[macro_export]
+    macro_rules! debug {
+        ($fmt:expr) => {
+            if cfg!(debug_assertions) {
+                println!("{} {}", "[DEBUG]".bright_black(), $fmt.bright_black())
+            }
+        };
+
+        ($fmt:expr, $($args:tt)*) => {
+            if cfg!(debug_assertions) {
+                println!("{} {}", "[DEBUG]".bright_black(), format_args!($fmt, $($args)*).to_string().bright_black())
+            }
+        };
+    }
+
+    #[macro_export]
+    macro_rules! custom {
+        ($text:expr, $fmt:expr) => {
+            println!("{} {}", $text, $fmt)
+        };
+
+        // not working yet
+        // ($text:expr, $fmt:expr, $($args:tt)*) => {
+        //     println!("{} {}", $text, format_args!($fmt, $($args)*))
+        // };
+    }
 }
-pub(crate) use logma;
 
-macro_rules! elogma {
-    (info, $fmt:expr) => {
-        eprintln!("{} {}", "[INFO]", $fmt)
-    };
-    (warn, $fmt:expr) => {
-        eprintln!("{} {}", "[WARN]".yellow(), $fmt.yellow())
-    };
-    (fatal, $fmt:expr) => {
-        eprintln!("{} {}", "[FATAL]".red(), $fmt.red())
-    };
-    (debug, $fmt:expr) => {
-        if cfg!(debug_assertions) {
-            eprintln!("{} {}", "[DEBUG]".bright_black(), $fmt.bright_black())
-        }
-    };
-    (custom, $text:expr, $fmt:expr) => {
-        eprintln!("{} {}", $text, $fmt)
-    };
-
-    (info, $fmt:expr, $($args:tt)*) => {
-        eprintln!("{} {}", "[INFO]", format_args!($fmt, $($args)*))
-    };
-    (warn, $fmt:expr, $($args:tt)*) => {
-        eprintln!("{} {}", "[WARN]".yellow(), format_args!($fmt, $($args)*).to_string().yellow())
-    };
-    (fatal, $fmt:expr, $($args:tt)*) => {
-        eprintln!("{} {}", "[FATAL]".red(), format_args!($fmt, $($args)*).to_string().red())
-    };
-    (debug, $fmt:expr, $($args:tt)*) => {
-        if cfg!(debug_assertions) {
-            eprintln!("{} {}", "[DEBUG]".bright_black(), format_args!($fmt, $($args)*).to_string().bright_black())
-        }
-    };
-    // not working yet
-    // (custom, $text:expr, $fmt:expr, $($args:tt)*) => {
-    //     println!("{} {}", $text, format_args!($fmt, $($args)*))
-    // };
-}
-pub(crate) use elogma;
+// todo: error variants
 
 // example use
 /*
@@ -107,24 +91,15 @@ mod tests {
 
     #[test]
     fn test_normal() {
-        logma!(info, "this is a test");
-        logma!(warn, "this is a test");
-        logma!(fatal, "this is a test");
-        logma!(debug, "this is a test");
-        logma!(custom, "[CUSTOM]".truecolor(255, 0, 255), "this is a test".truecolor(255, 0, 255));
-    }
-
-    #[test]
-    fn test_error_text() { // writes to stderr
-        elogma!(info, "this is a test");
-        elogma!(warn, "this is a test");
-        elogma!(fatal, "this is a test");
-        elogma!(debug, "this is a test");
-        elogma!(custom, "[CUSTOM]".truecolor(255, 0, 255), "this is a test".truecolor(255, 0, 255));
+        info!("this is a test");
+        warn!("this is a test");
+        fatal!("this is a test");
+        debug!("this is a test");
+        custom!("[CUSTOM]".truecolor(255, 0, 255), "this is a test".truecolor(255, 0, 255));
     }
 
     #[test]
     fn test_format() {
-        logma!(info, "{} is a test", "this");
+        info!("{} is a test", "this");
     }
 }

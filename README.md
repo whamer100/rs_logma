@@ -8,8 +8,10 @@ LOGMA TEXT
 ## Example
 
 ```rust
+use logma::info;
+
 fn main() {
-  logma!(info, "logma text");
+  info!("logma text");
   // >>> [INFO] logma text
 }
 ```

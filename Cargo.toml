@@ -12,9 +12,5 @@ categories = ["command-line-interface"]
 authors = ["whamer100 <whamer100@gmail.com>"]
 publish = true
 
-[lib]
-name = "logma"
-path = "src/lib.rs"
-
 [dependencies]
 colored = "2.1.0"
