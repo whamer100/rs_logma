@@ -21,5 +21,5 @@ fn main() {
 Add the following line to your `Cargo.toml` file under `[dependencies]`:
 
 ```toml
-logma = "0.1.5"
+logma = "0.1.6"
 ```
