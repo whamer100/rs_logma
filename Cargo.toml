@@ -10,8 +10,11 @@ readme = "README.md"
 keywords = ["logging", "colors", "logma"]
 categories = ["command-line-interface"]
 authors = ["whamer100 <whamer100@gmail.com>"]
+publish = true
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "logma"
+path = "src/lib.rs"
 
 [dependencies]
 colored = "2.1.0"
