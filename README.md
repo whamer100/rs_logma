@@ -21,5 +21,5 @@ fn main() {
 Add the following line to your `Cargo.toml` file under `[dependencies]`:
 
 ```toml
-logma = { git = "https://github.com/whamer100/rs_logma" }
+logma = "0.1.5"
 ```
