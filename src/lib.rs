@@ -1,9 +1,4 @@
-#[allow(unused_imports)]  // even though this is used, my ide is upset for some reason
-
-
 pub mod logma {
-    use colored::Colorize;
-
     #[macro_export]
     macro_rules! info {
         ($fmt:expr) => {
@@ -18,22 +13,34 @@ pub mod logma {
     #[macro_export]
     macro_rules! warn {
         ($fmt:expr) => {
-            println!("{} {}", "[WARN]".yellow(), $fmt.yellow())
+            println!("{} {}",
+                colored::Colorize::yellow("[WARN]"),
+                colored::Colorize::yellow($fmt)
+            )
         };
 
         ($fmt:expr, $($args:tt)*) => {
-            println!("{} {}", "[WARN]".yellow(), format_args!($fmt, $($args)*).to_string().yellow())
+            println!("{} {}",
+                colored::Colorize::yellow("[WARN]"),
+                colored::Colorize::yellow(format_args!($fmt, $($args)*).to_string()),
+            )
         };
     }
 
     #[macro_export]
     macro_rules! fatal {
         ($fmt:expr) => {
-            println!("{} {}", "[FATAL]".red(), $fmt.red())
+            println!("{} {}",
+                colored::Colorize::red("[FATAL]"),
+                colored::Colorize::red($fmt)
+            )
         };
 
         ($fmt:expr, $($args:tt)*) => {
-            println!("{} {}", "[FATAL]".red(), format_args!($fmt, $($args)*).to_string().red())
+            println!("{} {}",
+                colored::Colorize::red("[FATAL]"),
+                colored::Colorize::red(format_args!($fmt, $($args)*).to_string()),
+            )
         };
     }
 
@@ -41,13 +48,17 @@ pub mod logma {
     macro_rules! debug {
         ($fmt:expr) => {
             if cfg!(debug_assertions) {
-                println!("{} {}", "[DEBUG]".bright_black(), $fmt.bright_black())
+                println!("{} {}",
+                    colored::Colorize::bright_black("[DEBUG]"),
+                    colored::Colorize::bright_black($fmt)
+                )
             }
         };
 
         ($fmt:expr, $($args:tt)*) => {
             if cfg!(debug_assertions) {
-                println!("{} {}", "[DEBUG]".bright_black(), format_args!($fmt, $($args)*).to_string().bright_black())
+                colored::Colorize::bright_black("[DEBUG]"),
+                colored::Colorize::bright_black(format_args!($fmt, $($args)*).to_string()),
             }
         };
     }
