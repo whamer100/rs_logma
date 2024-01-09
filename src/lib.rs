@@ -22,7 +22,7 @@ pub mod logma {
         ($fmt:expr, $($args:tt)*) => {
             println!("{} {}",
                 colored::Colorize::yellow("[WARN]"),
-                colored::Colorize::yellow(format_args!($fmt, $($args)*).to_string()),
+                colored::Colorize::yellow(format_args!($fmt, $($args)*).to_string().as_str()),
             )
         };
     }
@@ -39,7 +39,7 @@ pub mod logma {
         ($fmt:expr, $($args:tt)*) => {
             println!("{} {}",
                 colored::Colorize::red("[FATAL]"),
-                colored::Colorize::red(format_args!($fmt, $($args)*).to_string()),
+                colored::Colorize::red(format_args!($fmt, $($args)*).to_string().as_str()),
             )
         };
     }
@@ -59,7 +59,7 @@ pub mod logma {
             if cfg!(debug_assertions) {
                 println!("{} {}",
                     colored::Colorize::bright_black("[DEBUG]"),
-                    colored::Colorize::bright_black(format_args!($fmt, $($args)*).to_string())
+                    colored::Colorize::bright_black(format_args!($fmt, $($args)*).to_string().as_str())
                 )
             }
         };
@@ -116,5 +116,8 @@ mod tests {
     #[test]
     fn test_format() {
         info!("{} is a test", "this");
+        warn!("{} is a test", "this");
+        fatal!("{} is a test", "this");
+        debug!("{} is a test", "this");
     }
 }
