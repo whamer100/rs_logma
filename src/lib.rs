@@ -57,8 +57,10 @@ pub mod logma {
 
         ($fmt:expr, $($args:tt)*) => {
             if cfg!(debug_assertions) {
-                colored::Colorize::bright_black("[DEBUG]"),
-                colored::Colorize::bright_black(format_args!($fmt, $($args)*).to_string()),
+                println!("{} {}",
+                    colored::Colorize::bright_black("[DEBUG]"),
+                    colored::Colorize::bright_black(format_args!($fmt, $($args)*).to_string())
+                )
             }
         };
     }

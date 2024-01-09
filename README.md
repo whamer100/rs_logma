@@ -21,6 +21,6 @@ fn main() {
 Add the following line to your `Cargo.toml` file under `[dependencies]`:
 
 ```toml
-logma = "0.1.7"
+logma = "0.1.8"
 colored = "2.1.0"  # this is needed for this to function, and i dont know how to get around it
 ```
